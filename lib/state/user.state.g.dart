@@ -24,21 +24,6 @@ mixin _$UserState on _UserState, Store {
     });
   }
 
-  final _$firebaseUserAtom = Atom(name: '_UserState.firebaseUser');
-
-  @override
-  FirebaseUser get firebaseUser {
-    _$firebaseUserAtom.reportRead();
-    return super.firebaseUser;
-  }
-
-  @override
-  set firebaseUser(FirebaseUser value) {
-    _$firebaseUserAtom.reportWrite(value, super.firebaseUser, () {
-      super.firebaseUser = value;
-    });
-  }
-
   final _$loadingUserAtom = Atom(name: '_UserState.loadingUser');
 
   @override
@@ -66,6 +51,21 @@ mixin _$UserState on _UserState, Store {
   set initUserCalled(bool value) {
     _$initUserCalledAtom.reportWrite(value, super.initUserCalled, () {
       super.initUserCalled = value;
+    });
+  }
+
+  final _$firebaseUserAtom = Atom(name: '_UserState.firebaseUser');
+
+  @override
+  FirebaseUser get firebaseUser {
+    _$firebaseUserAtom.reportRead();
+    return super.firebaseUser;
+  }
+
+  @override
+  set firebaseUser(FirebaseUser value) {
+    _$firebaseUserAtom.reportWrite(value, super.firebaseUser, () {
+      super.firebaseUser = value;
     });
   }
 
@@ -114,6 +114,13 @@ mixin _$UserState on _UserState, Store {
     });
   }
 
+  final _$initUserAsyncAction = AsyncAction('_UserState.initUser');
+
+  @override
+  Future initUser() {
+    return _$initUserAsyncAction.run(() => super.initUser());
+  }
+
   final _$handleSignInAsyncAction = AsyncAction('_UserState.handleSignIn');
 
   @override
@@ -138,28 +145,6 @@ mixin _$UserState on _UserState, Store {
   }
 
   final _$_UserStateActionController = ActionController(name: '_UserState');
-
-  @override
-  void setUser(dynamic u) {
-    final _$actionInfo =
-        _$_UserStateActionController.startAction(name: '_UserState.setUser');
-    try {
-      return super.setUser(u);
-    } finally {
-      _$_UserStateActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic initUser() {
-    final _$actionInfo =
-        _$_UserStateActionController.startAction(name: '_UserState.initUser');
-    try {
-      return super.initUser();
-    } finally {
-      _$_UserStateActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   Future<void> handleSignOut() {
@@ -198,9 +183,9 @@ mixin _$UserState on _UserState, Store {
   String toString() {
     return '''
 googleAccount: ${googleAccount},
-firebaseUser: ${firebaseUser},
 loadingUser: ${loadingUser},
 initUserCalled: ${initUserCalled},
+firebaseUser: ${firebaseUser},
 icon: ${icon},
 user: ${user},
 contactText: ${contactText}

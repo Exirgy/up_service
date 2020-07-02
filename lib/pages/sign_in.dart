@@ -1,13 +1,16 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/state/user.state.dart';
-import 'package:up_service/state/app.state.dart';
+import 'package:up_service/pages/layers/UI/homepage.dart';
+
+import '../state/app.state.dart';
+import '../state/user.state.dart';
+import 'layers/widgets/google_sign_inbutton.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -72,9 +75,14 @@ class _SignInState extends State<SignIn> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  RaisedButton(
+                  GoogleSignInButton(
                     onPressed: () {
                       userState.handleSignIn();
+                      Future.delayed(Duration(seconds: 10), () {
+                        // 5s over, navigate to a new page
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      });
                     },
                   ),
                   Text(

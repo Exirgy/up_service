@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // ignore: unused_import
 import 'package:up_service/main.dart';
-import 'package:up_service/theme.dart/app.dart';
+import 'package:up_service/app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

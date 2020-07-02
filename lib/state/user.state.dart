@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 import "package:http/http.dart" as http;
@@ -20,19 +21,20 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn googleSignIn = new GoogleSignIn();
 
 abstract class _UserState with Store {
   @observable
   GoogleSignInAccount googleAccount;
 
   @observable
-  FirebaseUser firebaseUser;
-
-  @observable
   bool loadingUser = false;
 
   @observable
   bool initUserCalled = false;
+
+  @observable
+  FirebaseUser firebaseUser;
 
   @observable
   Icon icon;
@@ -44,30 +46,52 @@ abstract class _UserState with Store {
   String contactText;
 
   @action
-  void setUser(u) {
-    firebaseUser = u;
-  }
-
-  @action
-  initUser() {
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+  initUser() async {
+    // Mutating the state directlys
+    loadingUser = true;
+    initUserCalled = true;
+    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       googleAccount = account;
-      // update mobx
-      signIntoFirebase();
       if (googleAccount != null) {
-        handleGetContact();
+        log('user found');
         signIntoFirebase();
       }
     });
-    _googleSignIn.signInSilently();
+    await googleSignIn
+        .signInSilently(suppressErrors: true)
+        .catchError((dynamic e) {
+      log('inituser error:$e');
+    });
+    loadingUser = false;
   }
 
   @action
   Future<void> handleSignIn() async {
+    log('called');
     try {
-      await _googleSignIn.signIn();
+      await googleSignIn.signIn().then((value) {
+        Fluttertoast.showToast(
+          msg: 'Success: fetching your information',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      });
     } catch (error) {
-      print(error);
+      Fluttertoast.showToast(
+        msg:
+            "Error signing in\nThis app seems unauthorised\nKindly try again and contact support if it persists",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red[900],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      throw error;
     }
   }
 
