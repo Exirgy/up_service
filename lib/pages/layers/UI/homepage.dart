@@ -172,24 +172,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                   Text(
                     "Search here",
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.vertical,
+                    physics: ClampingScrollPhysics(),
                     child: ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text("Company"),
-                            subtitle: Text("Location"),
-                            trailing: Text("Service type"),
+                            title: Text('Company'),
+                            subtitle: Text('Loacation'),
+                            trailing: Text('service type'),
                           );
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(height: 16);
+                          return Divider(
+                            height: 16,
+                          );
                         },
                         itemCount: 10),
                   )
