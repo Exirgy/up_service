@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:algolia/algolia.dart';
+import 'package:up_service/pages/functions/algolia_application.dart';
 
-final Color backgroundColor = Color(0xFF4A4A58);
+final Color backgroundColor = Color(0xFFFFD54F);
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -12,6 +15,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
   double screenWidth, screenHeight;
+  final Algolia _algoliaApp = AlgoliaApplication.algolia;
+  String _searchTerm;
   final Duration duration = const Duration(milliseconds: 500);
   //below line scales the contents on the dashboard just incase the top measurements exceeds the screen scale
   AnimationController _controller;
@@ -19,6 +24,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Animation<double> _menuscaleAnimation;
   Animation<Offset> _slideAnimation;
   //animation for the menu contents above
+
+  Future<List<AlgoliaObjectSnapshot>> _operation(String input) async {
+    AlgoliaQuery query = _algoliaApp.instance.index("services").search(input);
+    AlgoliaQuerySnapshot querySnap = await query.getObjects();
+    List<AlgoliaObjectSnapshot> results = querySnap.hits;
+    return results;
+  }
 
   @override
   void initState() {
@@ -74,12 +86,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ),
                 SizedBox(height: 10),
                 Text(
+                  "Categories",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                SizedBox(height: 10),
+                Text(
                   "Messages",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 SizedBox(height: 10),
                 Text(
                   "Reviews",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Favorites",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 SizedBox(height: 10),
@@ -149,20 +171,69 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       scrollDirection: Axis.horizontal,
                       pageSnapping: true,
                       children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          color: Colors.purpleAccent,
-                          width: 100,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          color: Colors.blueAccent,
-                          width: 100,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          color: Colors.greenAccent,
-                          width: 100,
+                        TextField(
+                            onChanged: (val) {
+                              setState(() {
+                                _searchTerm = val;
+                              });
+                            },
+                            style: new TextStyle(
+                                color: Colors.black, fontSize: 20),
+                            decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Search ...',
+                                hintStyle: TextStyle(color: Colors.black),
+                                prefixIcon: const Icon(Icons.search,
+                                    color: Colors.black))),
+                        StreamBuilder<List<AlgoliaObjectSnapshot>>(
+                          stream: Stream.fromFuture(_operation(_searchTerm)),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData)
+                              return Text(
+                                "Start Typing",
+                                style: TextStyle(color: Colors.black),
+                              );
+                            else {
+                              List<AlgoliaObjectSnapshot> currSearchStuff =
+                                  snapshot.data;
+
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return Container();
+                                default:
+                                  if (snapshot.hasError)
+                                    return new Text('Error: ${snapshot.error}');
+                                  else
+                                    return CustomScrollView(
+                                      shrinkWrap: true,
+                                      slivers: <Widget>[
+                                        SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                            (context, index) {
+                                              return _searchTerm.length > 0
+                                                  ? DisplaySearchResult(
+                                                      bio:
+                                                          currSearchStuff[index]
+                                                              .data["bio"],
+                                                      companyName:
+                                                          currSearchStuff[index]
+                                                                  .data[
+                                                              "company_name"],
+                                                      location:
+                                                          currSearchStuff[index]
+                                                              .data["location"],
+                                                    )
+                                                  : Container();
+                                            },
+                                            childCount:
+                                                currSearchStuff.length ?? 0,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                              }
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -177,25 +248,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   SizedBox(
                     height: 5,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: ClampingScrollPhysics(),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('Company'),
-                            subtitle: Text('Loacation'),
-                            trailing: Text('service type'),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            height: 16,
-                          );
-                        },
-                        itemCount: 10),
-                  )
+                  ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('Company'),
+                          subtitle: Text('Loacation'),
+                          trailing: Text('service type'),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 16,
+                        );
+                      },
+                      itemCount: 10)
                 ],
               ),
             ),
@@ -203,5 +270,36 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+}
+
+class DisplaySearchResult extends StatelessWidget {
+  final String bio;
+  final String companyName;
+  final String location;
+
+  DisplaySearchResult({Key key, this.companyName, this.bio, this.location})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: <Widget>[
+      Text(
+        bio ?? "",
+        style: TextStyle(color: Colors.black),
+      ),
+      Text(
+        companyName ?? "",
+        style: TextStyle(color: Colors.black),
+      ),
+      Text(
+        location ?? "",
+        style: TextStyle(color: Colors.black),
+      ),
+      Divider(
+        color: Colors.black,
+      ),
+      SizedBox(height: 20)
+    ]);
   }
 }

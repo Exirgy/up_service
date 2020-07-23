@@ -37,20 +37,11 @@ class _SignInState extends State<SignIn> {
     userState = Provider.of<UserState>(context);
     appState = Provider.of<AppState>(context);
 
-    PlatformWidget _buildText() {
-      return PlatformWidget(
-        // ignore: deprecated_member_use
-        android: (_) => Text(
-          'up_service',
-          style: Theme.of(context).textTheme.headline5,
-          textAlign: TextAlign.center,
-        ),
-        // ignore: deprecated_member_use
-        ios: (_) => Text(
-          'up_service',
-          style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-          textAlign: TextAlign.center,
-        ),
+    Image _buildLogo() {
+      return Image.asset(
+        "assets/images/final_logo.jpg",
+        height: 200.0,
+        width: 200.0,
       );
     }
 
@@ -63,14 +54,14 @@ class _SignInState extends State<SignIn> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF800020),
+              color: Color(0xFFFFFFFF),
             ),
             height: constraints.maxHeight / 2,
-            child: Center(child: _buildText()),
+            child: Center(child: _buildLogo()),
           ),
           Container(
             height: constraints.maxHeight / 2,
-            color: Color(0xFF800020),
+            color: Color(0xFFFFFFFF),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -88,7 +79,7 @@ class _SignInState extends State<SignIn> {
                   Text(
                     'You need to sign in to continue',
                     style: Theme.of(context).textTheme.caption.copyWith(
-                          color: Colors.white70,
+                          color: Colors.black87,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -100,7 +91,7 @@ class _SignInState extends State<SignIn> {
                           return Text(
                             '${appState.appName} ${appState.version}+${appState.buildNumber}',
                             style: Theme.of(context).textTheme.caption.copyWith(
-                                  color: Colors.white38,
+                                  color: Colors.black87,
                                   fontWeight: FontWeight.bold,
                                 ),
                           );
