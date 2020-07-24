@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/pages/layers/UI/homepage.dart';
-import 'package:up_service/pages/sign_in.dart';
+import 'package:up_service/pages/layers/UI/menu_dashboard_layout/menu_dashboard_layout.dart';
+import 'package:up_service/pages/layers/UI/sign_in.dart';
 import 'package:up_service/state/user.state.dart';
 import 'package:up_service/state/app.state.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         //home: HomeScreen()
         routes: {
           '/': (context) => SignIn(),
-          '/home': (context) => Home(),
+          '/home': (context) => MenuDashboardLayout(),
         },
         debugShowCheckedModeBanner: true,
         // home: MyHomePage(title: 'Flutter Demo Home Page'),

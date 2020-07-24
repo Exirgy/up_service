@@ -6,11 +6,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/pages/layers/UI/homepage.dart';
+import 'package:up_service/pages/layers/UI/menu_dashboard_layout/menu_dashboard_layout.dart';
 
-import '../state/app.state.dart';
-import '../state/user.state.dart';
-import 'layers/widgets/google_sign_inbutton.dart';
+import '../../../state/app.state.dart';
+import '../../../state/user.state.dart';
+import '../widgets/google_sign_inbutton.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -71,8 +71,10 @@ class _SignInState extends State<SignIn> {
                       userState.handleSignIn();
                       Future.delayed(Duration(seconds: 10), () {
                         // 5s over, navigate to a new page
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MenuDashboardLayout()));
                       });
                     },
                   ),
