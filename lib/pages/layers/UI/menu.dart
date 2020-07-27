@@ -22,6 +22,8 @@ class Menu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                //this is where ive stored all the tabs on the menu of the app
+                //including the profile avatar and the prospective logout button
                 Text(
                   "Search",
                   style: TextStyle(
