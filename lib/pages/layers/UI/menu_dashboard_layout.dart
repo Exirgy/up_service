@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:up_service/pages/layers/UI/pages/menu_dashboard_layout/dashboard.dart';
-import 'package:up_service/pages/layers/UI/menu.dart';
-import 'package:up_service/pages/layers/UI/pages/search.dart';
+
+import 'menu.dart';
+import 'pages/menu_dashboard_layout/dashboard.dart';
+import 'pages/search.dart';
 
 final Color backgroundColor = Color(0xFFFFD54F);
 

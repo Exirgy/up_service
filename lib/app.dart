@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/pages/layers/UI/menu_dashboard_layout.dart';
-import 'package:up_service/pages/layers/UI/sign_in.dart';
-import 'package:up_service/state/user.state.dart';
-import 'package:up_service/state/app.state.dart';
+
+import 'pages/layers/UI/menu_dashboard_layout.dart';
+import 'pages/layers/UI/sign_in.dart';
+import 'state/app.state.dart';
+import 'state/user.state.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

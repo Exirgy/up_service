@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:up_service/state/user.state.dart';
 
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
   final Animation<Offset> slideAnimation;
   final Animation<double> menuAnimation;
 
@@ -8,11 +11,18 @@ class Menu extends StatelessWidget {
       : super(key: key);
 
   @override
+  _MenuState createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  UserState userState;
+
+  @override
   Widget build(BuildContext context) {
     return SlideTransition(
-      position: slideAnimation,
+      position: widget.slideAnimation,
       child: ScaleTransition(
-        scale: menuAnimation,
+        scale: widget.menuAnimation,
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Align(
@@ -24,6 +34,13 @@ class Menu extends StatelessWidget {
               children: <Widget>[
                 //this is where ive stored all the tabs on the menu of the app
                 //including the profile avatar and the prospective logout button
+                //ListTile(
+                //leading: GoogleUserCircleAvatar(
+                // identity: userState.googleAccount,
+                //),
+                //title: Text(userState.googleAccount.displayName ?? ''),
+                //subtitle: Text(userState.googleAccount.email ?? ''),
+                //),
                 Text(
                   "Search",
                   style: TextStyle(

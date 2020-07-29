@@ -76,6 +76,7 @@ class _SearchPageState extends State<SearchPage> {
                     style: TextStyle(fontSize: 24, color: Colors.black),
                   ),
                   Icon(Icons.history, color: Colors.black),
+                  Tooltip(message: 'history'),
                 ]),
             Container(
               height: 600,

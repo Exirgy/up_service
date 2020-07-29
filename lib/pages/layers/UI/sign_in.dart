@@ -7,6 +7,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:up_service/pages/layers/UI/menu_dashboard_layout.dart';
+import 'package:up_service/pages/layers/UI/pages/messages.dart';
 
 import '../../../state/app.state.dart';
 import '../../../state/user.state.dart';
