@@ -76,10 +76,10 @@ class _SearchPageState extends State<SearchPage> {
                     style: TextStyle(fontSize: 24, color: Colors.black),
                   ),
                   Icon(Icons.history, color: Colors.black),
-                  Tooltip(message: 'history'),
+                  //Tooltip(message: 'history'),
                 ]),
             Container(
-              height: 600,
+              height: 800,
               child: PageView(
                 controller: PageController(viewportFraction: 0.2),
                 scrollDirection: Axis.vertical,

@@ -2,13 +2,18 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:firebase_database/firebase_database.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 import "package:http/http.dart" as http;
+//import 'package:up_service/functions/get_timestamp.dart';
 
 part 'user.state.g.dart';
 
@@ -22,6 +27,10 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = new GoogleSignIn();
+final GoogleSignInAccount account = _currentUser;
+
+var _currentUser = account;
+//final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 abstract class _UserState with Store {
   @observable
@@ -45,6 +54,14 @@ abstract class _UserState with Store {
   @observable
   String contactText;
 
+  @observable
+  //User user;
+
+  @action
+  void setUser(u) {
+    firebaseUser = u;
+  }
+
   @action
   initUser() async {
     // Mutating the state directlys
@@ -64,6 +81,16 @@ abstract class _UserState with Store {
     });
     loadingUser = false;
   }
+
+  @computed
+  DocumentReference get firestoreUserRef =>
+      Firestore.instance.collection('users').document(firebaseUser.uid);
+
+  @computed
+  DatabaseReference get dbUserRef => FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(firebaseUser.uid);
 
   @action
   Future<void> handleSignIn() async {
@@ -111,12 +138,25 @@ abstract class _UserState with Store {
       log(e.toString());
       if (e is PlatformException) {
         PlatformException err = e;
+        String errorMessage;
         log('is platform exception');
         log(err.code.toString());
         log(err.details.toString());
         log(err.message.toString());
         if (err.code == 'ERROR_NETWORK_REQUEST_FAILED') {
-        } else {}
+        } else {
+          errorMessage =
+              'Error signing in. Please contact support@najibu.app if downloaded from PlayStore';
+        }
+        Fluttertoast.showToast(
+          msg: errorMessage,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red[900],
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
       }
     });
     assert(user.email != null);

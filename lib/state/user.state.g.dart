@@ -9,6 +9,21 @@ part of 'user.state.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserState on _UserState, Store {
+  Computed<DocumentReference> _$firestoreUserRefComputed;
+
+  @override
+  DocumentReference get firestoreUserRef => (_$firestoreUserRefComputed ??=
+          Computed<DocumentReference>(() => super.firestoreUserRef,
+              name: '_UserState.firestoreUserRef'))
+      .value;
+  Computed<DatabaseReference> _$dbUserRefComputed;
+
+  @override
+  DatabaseReference get dbUserRef => (_$dbUserRefComputed ??=
+          Computed<DatabaseReference>(() => super.dbUserRef,
+              name: '_UserState.dbUserRef'))
+      .value;
+
   final _$googleAccountAtom = Atom(name: '_UserState.googleAccount');
 
   @override
@@ -147,6 +162,17 @@ mixin _$UserState on _UserState, Store {
   final _$_UserStateActionController = ActionController(name: '_UserState');
 
   @override
+  void setUser(dynamic u) {
+    final _$actionInfo =
+        _$_UserStateActionController.startAction(name: '_UserState.setUser');
+    try {
+      return super.setUser(u);
+    } finally {
+      _$_UserStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   Future<void> handleSignOut() {
     final _$actionInfo = _$_UserStateActionController.startAction(
         name: '_UserState.handleSignOut');
@@ -188,7 +214,9 @@ initUserCalled: ${initUserCalled},
 firebaseUser: ${firebaseUser},
 icon: ${icon},
 user: ${user},
-contactText: ${contactText}
+contactText: ${contactText},
+firestoreUserRef: ${firestoreUserRef},
+dbUserRef: ${dbUserRef}
     ''';
   }
 }

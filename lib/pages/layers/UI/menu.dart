@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:google_sign_in/google_sign_in.dart';
@@ -34,13 +35,12 @@ class _MenuState extends State<Menu> {
               children: <Widget>[
                 //this is where ive stored all the tabs on the menu of the app
                 //including the profile avatar and the prospective logout button
-                //ListTile(
-                //leading: GoogleUserCircleAvatar(
-                // identity: userState.googleAccount,
-                //),
-                //title: Text(userState.googleAccount.displayName ?? ''),
-                //subtitle: Text(userState.googleAccount.email ?? ''),
-                //),
+                ListTile(
+                  leading:
+                      GoogleUserCircleAvatar(identity: userState.googleAccount),
+                  title: Text(userState.user.displayName ?? ''),
+                  subtitle: Text(userState.user.email ?? ''),
+                ),
                 Text(
                   "Search",
                   style: TextStyle(
