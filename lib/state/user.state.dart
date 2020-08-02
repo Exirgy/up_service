@@ -134,6 +134,7 @@ abstract class _UserState with Store {
     );
     await _auth.signInWithCredential(credential).then((value) {
       user = value.user;
+      return true;
     }).catchError((e) {
       log(e.toString());
       if (e is PlatformException) {
@@ -157,6 +158,7 @@ abstract class _UserState with Store {
           textColor: Colors.white,
           fontSize: 14.0,
         );
+        return false;
       }
     });
     assert(user.email != null);

@@ -68,15 +68,14 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   GoogleSignInButton(
-                    onPressed: () {
-                      userState.handleSignIn();
-                      Future.delayed(Duration(seconds: 10), () {
-                        // 5s over, navigate to a new page
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuDashboardLayout()));
-                      });
+                    onPressed: () async {
+                      var response = await userState.handleSignIn();
+                      response
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuDashboardLayout()))
+                          : null;
                     },
                   ),
                   Text(

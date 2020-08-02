@@ -139,7 +139,7 @@ mixin _$UserState on _UserState, Store {
   final _$handleSignInAsyncAction = AsyncAction('_UserState.handleSignIn');
 
   @override
-  Future<void> handleSignIn() {
+  Future<bool> handleSignIn() {
     return _$handleSignInAsyncAction.run(() => super.handleSignIn());
   }
 
