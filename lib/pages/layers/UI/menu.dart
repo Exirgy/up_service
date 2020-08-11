@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:up_service/state/user.state.dart';
 
 class Menu extends StatefulWidget {
@@ -16,10 +17,10 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  UserState userState;
-
   @override
   Widget build(BuildContext context) {
+    final userState = Provider.of<UserState>(context);
+
     return SlideTransition(
       position: widget.slideAnimation,
       child: ScaleTransition(
@@ -44,56 +45,69 @@ class _MenuState extends State<Menu> {
                 Text(
                   "Search",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Categories",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      // fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Messages",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Reviews",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Favorites",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Settings",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 25),
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 20),
                 ),
+                //sign out button
+                Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: RaisedButton(
+                    child: Text('LOG OUT'),
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    onPressed: () {
+                      userState.handleSignOut();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                )
               ],
             ),
           ),

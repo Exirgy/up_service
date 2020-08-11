@@ -21,11 +21,15 @@ class _CategoriesPageState extends State<CategoriesPage> {
           slivers: <Widget>[
             //custom scroll behaviour for appbar
             SliverAppBar(
+              automaticallyImplyLeading: false,
+              leading: InkWell(
+                child: Icon(Icons.menu, color: Colors.black),
+              ),
               iconTheme: new IconThemeData(color: Colors.blue),
               floating: true,
               snap: true,
               //seethrough
-              backgroundColor: Colors.transparent,
+              backgroundColor: Color(0xFFFFD54F),
 
               //shadow
               elevation: 0.0,

@@ -49,7 +49,7 @@ class _MessagesPageState extends State<MessagesPage> {
         onPressed: () => setState(() {
           _count++;
         }),
-        tooltip: 'Increment Counter',
+        tooltip: 'Compose Message',
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
