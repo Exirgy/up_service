@@ -6,7 +6,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/pages/layers/UI/menu_dashboard_layout/menu_dashboard_layout.dart';
+import 'package:up_service/pages/layers/UI/menu_dashboard_layout.dart';
+import 'package:up_service/pages/layers/UI/pages/categories.dart';
+import 'package:up_service/pages/layers/UI/pages/favorites.dart';
+import 'package:up_service/pages/layers/UI/pages/search.dart';
+import 'package:up_service/pages/layers/UI/pages/settings.dart';
 
 import '../../../state/app.state.dart';
 import '../../../state/user.state.dart';
@@ -67,14 +71,14 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   GoogleSignInButton(
-                    onPressed: () {
+                    onPressed: () async {
                       userState.handleSignIn();
-                      Future.delayed(Duration(seconds: 10), () {
+                      await Future.delayed(Duration(seconds: 10), () {
                         // 5s over, navigate to a new page
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MenuDashboardLayout()));
+                                builder: (context) => FavoritesPage()));
                       });
                     },
                   ),

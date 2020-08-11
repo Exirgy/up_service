@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:up_service/pages/layers/UI/menu_dashboard_layout/dashboard.dart';
-import 'package:up_service/pages/layers/UI/menu_dashboard_layout/menu.dart';
+
+import 'menu.dart';
+import 'pages/menu_dashboard_layout/dashboard.dart';
+import 'pages/search.dart';
 
 final Color backgroundColor = Color(0xFFFFD54F);
 
@@ -69,6 +71,9 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
             scaleAnimation: _scaleAnimation,
             isCollapsed: isCollapsed,
             screenWidth: screenWidth,
+            child: SearchPage(
+              onMenuTap: onMenuTap,
+            ),
           ),
         ],
       ),
