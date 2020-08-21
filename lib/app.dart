@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:up_service/state/navigation.state.dart';
 
-import 'pages/layers/UI/menu_dashboard_layout.dart';
+import 'pages/layers/views/menu_dashboard_layout.dart';
 import 'pages/layers/UI/sign_in.dart';
 import 'state/app.state.dart';
 import 'state/user.state.dart';
