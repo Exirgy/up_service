@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:up_service/pages/layers/UI/pages/Reviews.dart';
 import 'package:up_service/pages/layers/UI/pages/categories.dart';
@@ -33,6 +36,7 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
   Animation<Offset> _slideAnimation;
   //animation for the menu contents above
   NavigationState navigationState;
+  ReactionDisposer disposeAutorun;
 
   @override
   void initState() {
@@ -43,11 +47,30 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
         Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
         .animate(_controller);
+    Future.delayed(Duration.zero, () async {
+      log('menu_dashboard_layout has been initiated');
+      disposeAutorun =
+          reaction((_) => navigationState.showMenu, (bool menuState) {
+        log('current menu state is $menuState');
+        if (menuState) {
+          setState(() {
+            isCollapsed = false;
+          });
+          onMenuTap();
+        } else {
+          setState(() {
+            isCollapsed = true;
+          });
+          onMenuTap();
+        }
+      });
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    disposeAutorun();
     super.dispose();
   }
 
@@ -103,7 +126,6 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
             ),
             Dashboard(
               duration: duration,
-              onMenuTap: onMenuTap,
               scaleAnimation: _scaleAnimation,
               isCollapsed: isCollapsed,
               screenWidth: screenWidth,

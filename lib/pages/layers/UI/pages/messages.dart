@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:up_service/pages/layers/widgets/category_selector.dart';
 import 'package:up_service/pages/layers/widgets/favorite_contacts.dart';
 import 'package:up_service/pages/layers/widgets/recent_chats.dart';
+import 'package:up_service/state/navigation.state.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key key}) : super(key: key);
@@ -11,16 +13,21 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+  NavigationState navigationState;
   @override
   Widget build(BuildContext context) {
+    navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: IconButton(
-            icon: Icon(Icons.menu),
-            iconSize: 30.0,
-            color: Colors.black,
-            onPressed: () {}),
+          icon: Icon(Icons.menu),
+          iconSize: 30.0,
+          color: Colors.black,
+          onPressed: () {
+            navigationState.showMenu = !navigationState.showMenu;
+          },
+        ),
         title: Text(
           'Chats',
           style: TextStyle(
