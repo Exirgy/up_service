@@ -20,7 +20,7 @@ class MenuDashboardLayout extends StatefulWidget {
   @override
   _MenuDashboardLayoutState createState() => _MenuDashboardLayoutState();
 }
-c
+
 class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
