@@ -21,4 +21,7 @@ abstract class _NavigationState with Store {
 
   @observable
   NavigationScreen currentPage = NavigationScreen.Search;
+
+  @observable
+  bool showMenu = false;
 }

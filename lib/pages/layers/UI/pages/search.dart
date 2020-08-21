@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:algolia/algolia.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:up_service/functions/algolia_application.dart';
 import 'dart:async';
+
+import 'package:up_service/state/navigation.state.dart';
 
 class DisplaySearchResult extends StatelessWidget {
   final String bio;
@@ -45,6 +50,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final Algolia _algoliaApp = AlgoliaApplication.algolia;
   String _searchTerm;
+  NavigationState navigationState;
 
   Future<List<AlgoliaObjectSnapshot>> _operation(String input) async {
     AlgoliaQuery query = _algoliaApp.instance.index("Posts").search(input);
@@ -55,6 +61,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    navigationState = Provider.of<NavigationState>(context);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       physics: ClampingScrollPhysics(),
@@ -68,9 +75,11 @@ class _SearchPageState extends State<SearchPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   InkWell(
-                    child: Icon(Icons.menu, color: Colors.black),
-                    onTap: widget.onMenuTap,
-                  ),
+                      child: Icon(Icons.menu, color: Colors.black),
+                      onTap: () {
+                        navigationState.showMenu = !navigationState.showMenu;
+                        log(navigationState.showMenu.toString());
+                      }),
                   Text(
                     'Search',
                     style: TextStyle(fontSize: 24, color: Colors.black),
