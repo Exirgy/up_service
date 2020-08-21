@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:up_service/state/navigation.state.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key key}) : super(key: key);
@@ -11,8 +15,11 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
+  NavigationState navigationState;
   @override
   Widget build(BuildContext context) {
+    navigationState = Provider.of<NavigationState>(context);
+
     return Scaffold(
         //drawer: Drawer(),
         body: Stack(
@@ -23,6 +30,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
             SliverAppBar(
               automaticallyImplyLeading: false,
               leading: InkWell(
+                onTap: () {
+                  navigationState.showMenu = !navigationState.showMenu;
+                  log(navigationState.showMenu.toString());
+                },
                 child: Icon(Icons.menu, color: Colors.black),
               ),
               iconTheme: new IconThemeData(color: Colors.blue),
