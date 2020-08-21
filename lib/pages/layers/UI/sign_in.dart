@@ -79,7 +79,7 @@ class _SignInState extends State<SignIn> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MessagesPage()));
+                                builder: (context) => MenuDashboardLayout()));
                       });
                     },
                   ),

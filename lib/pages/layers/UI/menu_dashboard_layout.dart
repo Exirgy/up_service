@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:up_service/pages/layers/UI/pages/Reviews.dart';
+import 'package:up_service/pages/layers/UI/pages/categories.dart';
+import 'package:up_service/pages/layers/UI/pages/favorites.dart';
+import 'package:up_service/pages/layers/UI/pages/messages.dart';
+import 'package:up_service/pages/layers/UI/pages/settings.dart';
+import 'package:up_service/state/navigation.state.dart';
 
 import 'menu.dart';
 import 'pages/menu_dashboard_layout/dashboard.dart';
@@ -12,7 +20,7 @@ class MenuDashboardLayout extends StatefulWidget {
   @override
   _MenuDashboardLayoutState createState() => _MenuDashboardLayoutState();
 }
-
+c
 class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
@@ -24,6 +32,7 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
   Animation<double> _menuscaleAnimation;
   Animation<Offset> _slideAnimation;
   //animation for the menu contents above
+  NavigationState navigationState;
 
   @override
   void initState() {
@@ -52,31 +61,59 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     });
   }
 
+  Widget currentPage() {
+    switch (navigationState.currentPage) {
+      case NavigationScreen.Search:
+        return SearchPage();
+        break;
+      case NavigationScreen.Categories:
+        return CategoriesPage();
+        break;
+      case NavigationScreen.Messages:
+        return MessagesPage();
+        break;
+      case NavigationScreen.Reviews:
+        return ReviewsPage();
+        break;
+      case NavigationScreen.Favorites:
+        return FavoritesPage();
+        break;
+      case NavigationScreen.Settings:
+        return SettingsPage();
+        break;
+      default:
+        return CategoriesPage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Menu(
-            slideAnimation: _slideAnimation,
-            menuAnimation: _menuscaleAnimation,
-          ),
-          Dashboard(
-            duration: duration,
-            onMenuTap: onMenuTap,
-            scaleAnimation: _scaleAnimation,
-            isCollapsed: isCollapsed,
-            screenWidth: screenWidth,
-            child: SearchPage(
-              onMenuTap: onMenuTap,
+    navigationState = Provider.of<NavigationState>(context);
+    return Observer(builder: (_) {
+      return Scaffold(
+        backgroundColor: backgroundColor,
+        body: Stack(
+          children: <Widget>[
+            Menu(
+              slideAnimation: _slideAnimation,
+              menuAnimation: _menuscaleAnimation,
             ),
-          ),
-        ],
-      ),
-    );
+            Dashboard(
+              duration: duration,
+              onMenuTap: onMenuTap,
+              scaleAnimation: _scaleAnimation,
+              isCollapsed: isCollapsed,
+              screenWidth: screenWidth,
+              child: Observer(builder: (_) {
+                return currentPage();
+              }),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

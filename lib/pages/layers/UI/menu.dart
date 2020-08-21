@@ -1,8 +1,11 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:up_service/state/navigation.state.dart';
 import 'package:up_service/state/user.state.dart';
 
 class Menu extends StatefulWidget {
@@ -17,9 +20,17 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  NavigationState navigationState;
+
+  updateNavigationScreen(NavigationScreen screen) {
+    navigationState.currentPage = screen;
+    log(navigationState.currentPage.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     final userState = Provider.of<UserState>(context);
+    navigationState = Provider.of<NavigationState>(context);
 
     return SlideTransition(
       position: widget.slideAnimation,
@@ -42,6 +53,42 @@ class _MenuState extends State<Menu> {
                   ),
                   title: Text(userState.user.displayName ?? ''),
                   subtitle: Text(userState.user.email ?? ''),
+                ),
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Search),
+                  child: Text(
+                    "Search",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Categories),
+                  child: Text(
+                    "Categories",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Messages),
+                  child: Text(
+                    "Messages",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                  ),
                 ),
                 Text(
                   "Search",
