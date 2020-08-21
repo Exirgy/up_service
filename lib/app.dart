@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:up_service/state/navigation.state.dart';
 
 import 'pages/layers/UI/menu_dashboard_layout.dart';
 import 'pages/layers/UI/sign_in.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         Provider<AppState>(
           create: (_) => AppState(),
         ),
+        Provider<NavigationState>(
+          create: (_) => NavigationState(),
+        ),
       ],
       child: MaterialApp(
         title: 'UpService',
@@ -31,7 +35,11 @@ class MyApp extends StatelessWidget {
           '/': (context) => SignIn(),
           '/home': (context) => MenuDashboardLayout(),
         },
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFFFFD54F),
+          accentColor: Color(0xFFFEF9EB),
+        ),
         // home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );

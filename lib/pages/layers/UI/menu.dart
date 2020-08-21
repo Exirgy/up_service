@@ -37,8 +37,9 @@ class _MenuState extends State<Menu> {
                 //this is where ive stored all the tabs on the menu of the app
                 //including the profile avatar and the prospective logout button
                 ListTile(
-                  leading:
-                      GoogleUserCircleAvatar(identity: userState.googleAccount),
+                  leading: GoogleUserCircleAvatar(
+                    identity: userState.googleAccount,
+                  ),
                   title: Text(userState.user.displayName ?? ''),
                   subtitle: Text(userState.user.email ?? ''),
                 ),

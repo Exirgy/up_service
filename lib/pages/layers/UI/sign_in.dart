@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:up_service/pages/layers/UI/menu_dashboard_layout.dart';
 import 'package:up_service/pages/layers/UI/pages/categories.dart';
 import 'package:up_service/pages/layers/UI/pages/favorites.dart';
+import 'package:up_service/pages/layers/UI/pages/messages.dart';
 import 'package:up_service/pages/layers/UI/pages/search.dart';
 import 'package:up_service/pages/layers/UI/pages/settings.dart';
 
@@ -73,12 +74,12 @@ class _SignInState extends State<SignIn> {
                   GoogleSignInButton(
                     onPressed: () async {
                       userState.handleSignIn();
-                      await Future.delayed(Duration(seconds: 10), () {
+                      await Future.delayed(Duration(seconds: 1), () {
                         // 5s over, navigate to a new page
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FavoritesPage()));
+                                builder: (context) => MessagesPage()));
                       });
                     },
                   ),
