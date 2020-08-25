@@ -53,7 +53,7 @@ class _SearchPageState extends State<SearchPage> {
   NavigationState navigationState;
 
   Future<List<AlgoliaObjectSnapshot>> _operation(String input) async {
-    AlgoliaQuery query = _algoliaApp.instance.index("Posts").search(input);
+    AlgoliaQuery query = _algoliaApp.instance.index("services").search(input);
     AlgoliaQuerySnapshot querySnap = await query.getObjects();
     List<AlgoliaObjectSnapshot> results = querySnap.hits;
     return results;

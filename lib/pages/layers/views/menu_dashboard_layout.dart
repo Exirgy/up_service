@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/pages/layers/UI/pages/Reviews.dart';
-import 'package:up_service/pages/layers/UI/pages/categories.dart';
-import 'package:up_service/pages/layers/UI/pages/favorites.dart';
-import 'package:up_service/pages/layers/UI/pages/messages.dart';
-import 'package:up_service/pages/layers/UI/pages/settings.dart';
+import 'package:up_service/pages/layers/views/pages/Reviews.dart';
+import 'package:up_service/pages/layers/views/pages/categories.dart';
+import 'package:up_service/pages/layers/views/pages/favorites.dart';
+import 'package:up_service/pages/layers/views/pages/menu_dashboard_layout/dashboard.dart';
+import 'package:up_service/pages/layers/views/pages/messages.dart';
+import 'package:up_service/pages/layers/views/pages/search.dart';
+import 'package:up_service/pages/layers/views/pages/settings.dart';
+
 import 'package:up_service/state/navigation.state.dart';
 
 import 'menu.dart';
-import 'pages/menu_dashboard_layout/dashboard.dart';
-import 'pages/search.dart';
 
-final Color backgroundColor = Color(0xFFFFD54F);
+final Color backgroundColor = Color(0xFFFEF9EB);
 
 class MenuDashboardLayout extends StatefulWidget {
   const MenuDashboardLayout({Key key}) : super(key: key);
@@ -102,7 +103,7 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
         return FavoritesPage();
         break;
       case NavigationScreen.Settings:
-        return SettingsPage();
+        return SettingsTab();
         break;
       default:
         return CategoriesPage();

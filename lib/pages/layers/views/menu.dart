@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:up_service/state/navigation.state.dart';
 import 'package:up_service/state/user.state.dart';
+import 'package:up_service/utils/constants.dart';
 
 class Menu extends StatefulWidget {
   final Animation<Offset> slideAnimation;
@@ -66,6 +67,7 @@ class _MenuState extends State<Menu> {
                         fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 20),
                 MaterialButton(
                   onPressed: () =>
                       updateNavigationScreen(NavigationScreen.Categories),
@@ -78,6 +80,7 @@ class _MenuState extends State<Menu> {
                         fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 20),
                 MaterialButton(
                   onPressed: () =>
                       updateNavigationScreen(NavigationScreen.Messages),
@@ -90,72 +93,47 @@ class _MenuState extends State<Menu> {
                         fontSize: 20),
                   ),
                 ),
-                Text(
-                  "Search",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      //fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
                 SizedBox(height: 20),
-                Text(
-                  "Categories",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Messages",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      //fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Reviews",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      //fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Favorites",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      //fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Settings",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      //fontStyle: FontStyle.italic,
-                      fontSize: 20),
-                ),
-                //sign out button
-                Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: RaisedButton(
-                    child: Text('LOG OUT'),
-                    color: Colors.white,
-                    textColor: Colors.black,
-                    onPressed: () {
-                      userState.handleSignOut();
-                      Navigator.of(context).pop();
-                    },
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Reviews),
+                  child: Text(
+                    "Reviews",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
                   ),
-                )
+                ),
+                SizedBox(height: 20),
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Favorites),
+                  child: Text(
+                    "Favorites",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                  ),
+                ),
+                SizedBox(height: 20),
+                MaterialButton(
+                  onPressed: () =>
+                      updateNavigationScreen(NavigationScreen.Settings),
+                  child: Text(
+                    "Settings",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        //fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                  ),
+                ),
+
+                //sign out button
               ],
             ),
           ),

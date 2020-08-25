@@ -1,10 +1,21 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class ReviewsPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:up_service/state/navigation.state.dart';
+
+class ReviewsPage extends StatefulWidget {
   const ReviewsPage({Key key}) : super(key: key);
 
   @override
+  _ReviewsPageState createState() => _ReviewsPageState();
+}
+
+class _ReviewsPageState extends State<ReviewsPage> {
+  NavigationState navigationState;
+  @override
   Widget build(BuildContext context) {
+    navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -12,6 +23,10 @@ class ReviewsPage extends StatelessWidget {
           SliverAppBar(
             automaticallyImplyLeading: false,
             leading: InkWell(
+              onTap: () {
+                navigationState.showMenu = !navigationState.showMenu;
+                log(navigationState.showMenu.toString());
+              },
               child: Icon(Icons.menu, color: Colors.black),
             ),
             iconTheme: new IconThemeData(color: Color(0xFFFFD54F)),

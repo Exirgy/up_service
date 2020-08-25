@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:up_service/state/navigation.state.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({Key key}) : super(key: key);
@@ -8,8 +12,10 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
+  NavigationState navigationState;
   @override
   Widget build(BuildContext context) {
+    navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -17,6 +23,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
             SliverAppBar(
               automaticallyImplyLeading: false,
               leading: InkWell(
+                onTap: () {
+                  navigationState.showMenu = !navigationState.showMenu;
+                  log(navigationState.showMenu.toString());
+                },
                 child: Icon(Icons.menu, color: Colors.black),
               ),
               iconTheme: new IconThemeData(color: Color(0xFFFFD54F)),
@@ -29,7 +39,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               elevation: 0.0,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
-                  "Reviews",
+                  "Favorites",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 26.0,
