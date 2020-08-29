@@ -60,8 +60,8 @@ class _SettingsTabState extends State<SettingsTab> {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: InkWell(
           onTap: () {
             navigationState.showMenu = !navigationState.showMenu;
@@ -85,59 +85,33 @@ class _SettingsTabState extends State<SettingsTab> {
               onPressed: () {})
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Observer(
-            builder: (_) => MaterialButton(
-              textColor: const Color(0xFF807a6b),
-              padding: EdgeInsets.all(20.0),
-              onPressed: () => _signOut(),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.exit_to_app),
-                  SizedBox(width: 20.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Log out',
-                        style: subBodyTextStyle.copyWith(color: Colors.grey),
+      body: Column(children: [
+        Expanded(
+          child: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Observer(
+              builder: (_) {
+                return Text(
+                  '${appState.appName} ${appState.version}+${appState.buildNumber}',
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 5.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '${userState.user.displayName}' ?? 'Not logged in',
-                            style: bodyTextStyle,
-                          ),
-                          Text('email: ${userState.user.email}' ?? '',
-                              style: subBodyTextStyle.copyWith(
-                                  color: Colors.grey[400])),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Observer(
-                builder: (_) {
-                  return Text(
-                    '${appState.appName} ${appState.version}+${appState.buildNumber}\nuid:${userState.firebaseUser.uid}',
-                    style: Theme.of(context).textTheme.caption.copyWith(
-                        color: Colors.white60, fontWeight: FontWeight.bold),
-                  );
-                },
-              ),
-            ),
-          )
-        ],
+        )
+      ]),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.red[200],
+        shape: const CircularNotchedRectangle(),
+        child: MaterialButton(
+          textColor: Colors.white,
+          padding: EdgeInsets.all(20.0),
+          onPressed: () => _signOut(),
+          child: Text('LogOut'),
+        ),
       ),
     );
   }

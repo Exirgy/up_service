@@ -22,6 +22,7 @@ class _MessagesPageState extends State<MessagesPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.menu),
           iconSize: 30.0,

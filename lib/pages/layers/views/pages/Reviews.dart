@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:up_service/pages/layers/widgets/rating_bar.dart';
 import 'package:up_service/state/navigation.state.dart';
 
 class ReviewsPage extends StatefulWidget {
@@ -16,12 +18,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     navigationState = Provider.of<NavigationState>(context);
-    return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        CustomScrollView(slivers: <Widget>[
-          SliverAppBar(
-            automaticallyImplyLeading: false,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
             leading: InkWell(
               onTap: () {
                 navigationState.showMenu = !navigationState.showMenu;
@@ -29,39 +30,122 @@ class _ReviewsPageState extends State<ReviewsPage> {
               },
               child: Icon(Icons.menu, color: Colors.black),
             ),
-            iconTheme: new IconThemeData(color: Color(0xFFFFD54F)),
-            floating: true,
-            snap: true,
-            //seethrough
-            backgroundColor: Color(0xFFFFD54F),
-
-            //shadow
-            elevation: 0.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                "Reviews",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.bold),
+            title: Text(
+              'Reviews',
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
               ),
-              centerTitle: true,
             ),
+            elevation: 0.0,
             actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8.0),
-              ),
-              Icon(Icons.refresh, color: Colors.black),
-              Tooltip(message: 'refresh'),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-              ),
-              Icon(Icons.notifications, color: Colors.black),
-              Tooltip(message: 'click here to check your notifications'),
+              IconButton(
+                  icon: Icon(Icons.search),
+                  iconSize: 30.0,
+                  color: Colors.black,
+                  onPressed: () {})
             ],
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.rate_review),
+                  text: "Reviews",
+                ),
+                Tab(icon: Icon(Icons.design_services), text: "Services"),
+              ],
+            ),
           ),
-        ])
-      ],
-    ));
+          body: TabBarView(
+            children: [
+              Container(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    child: RatingBar(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 60.0,
+                  ),
+                  Center(
+                      child: Column(
+                    children: [
+                      Text(
+                        'Qualified Coffee Maker',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: Text(
+                          'I used to work for Jps Coffee House in Holland,and i have done some side coffee consulting and training through what was the Midwest Barista School I have also pcompeted in latte art championships and helped Java Cofee house Kenya to take part in 3rd America best coffee house 2018',
+                          style: TextStyle(
+                              //fontSize: 30.0,
+
+                              ),
+                        ),
+                      ),
+                    ],
+                  )),
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyApp()));
+                      },
+                      child: const Text('Leave a Review!',
+                          style: TextStyle(fontSize: 20)),
+                      color: Color(0xFFFF9100),
+                      textColor: Colors.white,
+                      elevation: 5,
+                    ),
+                  )
+                ],
+              )),
+              Container(
+                child: RatingBar(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                ),
+              )
+            ],
+          )),
+    );
   }
 }

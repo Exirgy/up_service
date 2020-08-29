@@ -40,7 +40,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               floating: true,
               snap: true,
               //seethrough
-              backgroundColor: Color(0xFFFFD54F),
+              backgroundColor: Colors.transparent,
 
               //shadow
               elevation: 0.0,

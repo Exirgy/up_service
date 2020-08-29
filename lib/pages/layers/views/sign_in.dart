@@ -69,7 +69,7 @@ class _SignInState extends State<SignIn> {
                   GoogleSignInButton(
                     onPressed: () async {
                       userState.handleSignIn();
-                      await Future.delayed(Duration(seconds: 1), () {
+                      await Future.delayed(Duration(seconds: 15), () {
                         // 5s over, navigate to a new page
                         Navigator.push(
                             context,

@@ -4,6 +4,7 @@ import 'package:algolia/algolia.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:up_service/functions/algolia_application.dart';
+import 'package:up_service/pages/layers/views/pages/Reviews.dart';
 import 'dart:async';
 
 import 'package:up_service/state/navigation.state.dart';
@@ -88,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                   //Tooltip(message: 'history'),
                 ]),
             Container(
-              height: 800,
+              height: 400,
               child: PageView(
                 controller: PageController(viewportFraction: 0.2),
                 scrollDirection: Axis.vertical,
@@ -134,14 +135,23 @@ class _SearchPageState extends State<SearchPage> {
                                     delegate: SliverChildBuilderDelegate(
                                       (context, index) {
                                         return _searchTerm.length > 0
-                                            ? DisplaySearchResult(
-                                                bio: currSearchStuff[index]
-                                                    .data["bio"],
-                                                companyName:
-                                                    currSearchStuff[index]
-                                                        .data["company_name"],
-                                                location: currSearchStuff[index]
-                                                    .data["location"],
+                                            ? GestureDetector(
+                                                onTap: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          ReviewsPage()),
+                                                ),
+                                                child: DisplaySearchResult(
+                                                  bio: currSearchStuff[index]
+                                                      .data["bio"],
+                                                  companyName:
+                                                      currSearchStuff[index]
+                                                          .data["company_name"],
+                                                  location:
+                                                      currSearchStuff[index]
+                                                          .data["location"],
+                                                ),
                                               )
                                             : Container();
                                       },

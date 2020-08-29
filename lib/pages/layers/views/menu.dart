@@ -41,100 +41,104 @@ class _MenuState extends State<Menu> {
           padding: const EdgeInsets.only(left: 16.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                //this is where ive stored all the tabs on the menu of the app
-                //including the profile avatar and the prospective logout button
-                ListTile(
-                  leading: GoogleUserCircleAvatar(
-                    identity: userState.googleAccount,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: ClampingScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //this is where ive stored all the tabs on the menu of the app
+                  //including the profile avatar and the prospective logout button
+                  ListTile(
+                    leading: GoogleUserCircleAvatar(
+                      identity: userState.googleAccount,
+                    ),
+                    title: Text(userState.user.displayName ?? ''),
+                    subtitle: Text(userState.user.email ?? ''),
                   ),
-                  title: Text(userState.user.displayName ?? ''),
-                  subtitle: Text(userState.user.email ?? ''),
-                ),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Search),
-                  child: Text(
-                    "Search",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Search),
+                    child: Text(
+                      "Search",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Categories),
-                  child: Text(
-                    "Categories",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Categories),
+                    child: Text(
+                      "Categories",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Messages),
-                  child: Text(
-                    "Messages",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Messages),
+                    child: Text(
+                      "Messages",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Reviews),
-                  child: Text(
-                    "Reviews",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Reviews),
+                    child: Text(
+                      "Reviews",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Favorites),
-                  child: Text(
-                    "Favorites",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Favorites),
+                    child: Text(
+                      "Favorites",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                MaterialButton(
-                  onPressed: () =>
-                      updateNavigationScreen(NavigationScreen.Settings),
-                  child: Text(
-                    "Settings",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        //fontStyle: FontStyle.italic,
-                        fontSize: 20),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    onPressed: () =>
+                        updateNavigationScreen(NavigationScreen.Settings),
+                    child: Text(
+                      "Settings",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          //fontStyle: FontStyle.italic,
+                          fontSize: 20),
+                    ),
                   ),
-                ),
 
-                //sign out button
-              ],
+                  //sign out button
+                ],
+              ),
             ),
           ),
         ),
