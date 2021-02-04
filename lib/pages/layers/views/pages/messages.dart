@@ -1,11 +1,20 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:up_service/models/message_model.dart';
-import 'package:up_service/models/user_model.dart';
-import 'package:up_service/pages/layers/widgets/category_selector.dart';
-import 'package:up_service/pages/layers/widgets/favorite_contacts.dart';
-import 'package:up_service/pages/layers/widgets/recent_chats.dart';
-import 'package:up_service/state/navigation.state.dart';
+
+import '../../../../models/message_database..dart';
+import '../../../../models/message_model.dart';
+import '../../../../models/user_model.dart';
+import '../../../../state/navigation.state.dart';
+import '../../widgets/messages_page/category_selector.dart';
+import '../../widgets/messages_page/favorite_contacts.dart';
+import '../../widgets/messages_page/groups.dart';
+import '../../widgets/messages_page/message_search.dart';
+import '../../widgets/messages_page/online.dart';
+import '../../widgets/messages_page/recent_chats.dart';
+import '../../widgets/messages_page/requests.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key key}) : super(key: key);
@@ -16,64 +25,103 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPageState extends State<MessagesPage> {
   NavigationState navigationState;
+  PageController _pageController;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  TextEditingController searchTextEditingController =
+      new TextEditingController();
+  QuerySnapshot searchResultSnapshot;
+  bool _IsSearching;
+
+  Duration pageChanging =
+      Duration(milliseconds: 300); //this is for page animation-not necessary
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 1);
+  }
+
+  QuerySnapshot searchSnapshot;
+  initiateSearch() {
+    databaseMethods
+        .getUserByUsername(searchTextEditingController.text)
+        .then((val) {
+      searchSnapshot = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30.0,
-          color: Colors.black,
-          onPressed: () {
-            navigationState.showMenu = !navigationState.showMenu;
-          },
-        ),
-        title: Text(
-          'Chats',
-          style: TextStyle(
-            fontSize: 28.0,
-            fontWeight: FontWeight.bold,
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              navigationState.showMenu = !navigationState.showMenu;
+              log(navigationState.showMenu.toString());
+            },
+            child: Icon(Icons.menu, color: Colors.black),
           ),
-        ),
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              iconSize: 30.0,
-              color: Colors.black,
-              onPressed: () {})
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          CategorySelector(),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0),
-                  )),
-              child: Column(
-                children: <Widget>[
-                  FavoriteContacts(),
-                  RecentChats(),
-                ],
-              ),
+          title: Text(
+            'Chats',
+            style: TextStyle(
+              fontSize: 28.0,
+              fontWeight: FontWeight.bold,
             ),
-          )
-        ],
-      ),
-    );
+          ),
+          elevation: 0.0,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search),
+                iconSize: 30.0,
+                color: Colors.black,
+                onPressed: () {})
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            CategorySelector(),
+            TextField(
+                //here i want to switch to another search page when initiate search is called
+                controller: searchTextEditingController,
+                onChanged: (val) {
+                  initiateSearch();
+                },
+                style: new TextStyle(color: Colors.black, fontSize: 20),
+                decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'find user',
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: const Icon(Icons.search, color: Colors.black))),
+            FavoriteContacts(),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    )),
+                child: PageView(
+                  //how do i put dependecy injection here so that these page are in  line with when the widgets above are  clicked?
+                  children: <Widget>[
+                    RecentChats(),
+                    MessagesSearch(),
+                    OnlineScreen(),
+                    GroupScreen(),
+                    RequestScreen(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 
 //below is the chat screen
-//on modification the chat room id will be  swapped with the user data model to change the titl e of the chat screen to the user id
+//on modification the chat room id will be  swapped with the user data model to change the title of the chat screen to the user id
 
 class ChatScreen extends StatefulWidget {
   final User user;

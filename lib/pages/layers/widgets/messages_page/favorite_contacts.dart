@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:up_service/models/message_model.dart';
+import 'package:up_service/pages/layers/views/pages/messages.dart';
 
 class FavoriteContacts extends StatelessWidget {
   const FavoriteContacts({Key key}) : super(key: key);
@@ -41,15 +42,26 @@ class FavoriteContacts extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: favorites.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(children: <Widget>[
-                      CircleAvatar(
-                        radius: 35.0,
-                        backgroundImage: AssetImage(favorites[index].imageUrl),
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChatScreen(
+                          user: favorites[index],
+                        ),
                       ),
-                      Text(favorites[index].name)
-                    ]),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(children: <Widget>[
+                        CircleAvatar(
+                          radius: 35.0,
+                          backgroundImage:
+                              AssetImage(favorites[index].imageUrl),
+                        ),
+                        Text(favorites[index].name)
+                      ]),
+                    ),
                   );
                 }),
           )

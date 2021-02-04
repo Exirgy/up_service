@@ -85,6 +85,7 @@ class _SignInState extends State<SignIn> {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
+                  //figure where the logon option should be from here
                   Expanded(
                     child: Align(
                       alignment: FractionalOffset.bottomCenter,

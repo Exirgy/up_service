@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:up_service/state/navigation.state.dart';
+
+import '../../../../state/navigation.state.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key key}) : super(key: key);

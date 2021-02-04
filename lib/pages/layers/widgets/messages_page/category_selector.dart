@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:up_service/pages/layers/widgets/messages_page/groups.dart';
+import 'package:up_service/pages/layers/widgets/messages_page/online.dart';
+import 'package:up_service/pages/layers/widgets/messages_page/message_search.dart';
+import 'package:up_service/pages/layers/widgets/messages_page/recent_chats.dart';
+import 'package:up_service/pages/layers/widgets/messages_page/requests.dart';
 
 class CategorySelector extends StatefulWidget {
   CategorySelector({Key key}) : super(key: key);
@@ -8,8 +13,31 @@ class CategorySelector extends StatefulWidget {
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
-  int selectedIndex = 0;
-  final List<String> categories = ['Messages', 'Online', 'Groups', 'Requests'];
+  int _selectedPage = 1;
+  final List<Widget> _pageOptions = [
+    GroupScreen(),
+    OnlineScreen(),
+    MessagesSearch(),
+    RequestScreen(),
+    RecentChats(),
+  ];
+  void onTapped(int pageTapped) {
+    setState(() {
+      //print(pageTapped);
+      _selectedPage = pageTapped;
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => _pageOptions[pageTapped]));
+      //print(_selectedPage);
+    });
+  }
+
+  final List<String> categories = [
+    'Messages',
+    'Search',
+    'Online',
+    'Groups',
+    'Requests'
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +50,7 @@ class _CategorySelectorState extends State<CategorySelector> {
             return GestureDetector(
               onTap: () {
                 setState(() {
-                  selectedIndex = index;
+                  _selectedPage = index;
                 });
               },
               child: Padding(
@@ -31,7 +59,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                   child: Text(
                     categories[index],
                     style: TextStyle(
-                      color: index == selectedIndex
+                      color: index == _selectedPage
                           ? Colors.black
                           : Colors.white60,
                       fontSize: 18.0,

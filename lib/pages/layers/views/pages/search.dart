@@ -12,7 +12,7 @@ import 'package:up_service/state/navigation.state.dart';
 class DisplaySearchResult extends StatelessWidget {
   final String bio;
   final String companyName;
-  final String location;
+  final List<dynamic> location;
 
   DisplaySearchResult({Key key, this.bio, this.companyName, this.location})
       : super(key: key);
@@ -29,7 +29,7 @@ class DisplaySearchResult extends StatelessWidget {
         style: TextStyle(color: Colors.black),
       ),
       Text(
-        location ?? "",
+        location.toString() ?? "",
         style: TextStyle(color: Colors.black),
       ),
       Divider(
@@ -88,84 +88,71 @@ class _SearchPageState extends State<SearchPage> {
                   Icon(Icons.history, color: Colors.black),
                   //Tooltip(message: 'history'),
                 ]),
-            Container(
-              height: 400,
-              child: PageView(
-                controller: PageController(viewportFraction: 0.2),
-                scrollDirection: Axis.vertical,
-                pageSnapping: true,
-                children: <Widget>[
-                  //textfield here
-                  TextField(
-                      onChanged: (val) {
-                        setState(() {
-                          _searchTerm = val;
-                        });
-                      },
-                      style: new TextStyle(color: Colors.black, fontSize: 20),
-                      decoration: new InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Search ...',
-                          hintStyle: TextStyle(color: Colors.black),
-                          prefixIcon:
-                              const Icon(Icons.search, color: Colors.black))),
-                  StreamBuilder<List<AlgoliaObjectSnapshot>>(
-                    stream: Stream.fromFuture(_operation(_searchTerm)),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return Text(
-                          "Start Typing",
-                          style: TextStyle(color: Colors.black),
-                        );
-                      else {
-                        List<AlgoliaObjectSnapshot> currSearchStuff =
-                            snapshot.data;
+            SizedBox(
+              height: 20.0,
+            ),
+            TextField(
+                onChanged: (val) {
+                  setState(() {
+                    _searchTerm = val;
+                  });
+                },
+                style: new TextStyle(color: Colors.black, fontSize: 20),
+                decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search ...',
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: const Icon(Icons.search, color: Colors.black))),
+            StreamBuilder<List<AlgoliaObjectSnapshot>>(
+              stream: Stream.fromFuture(_operation(_searchTerm)),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Text(
+                    "Start Typing",
+                    style: TextStyle(color: Colors.black),
+                  );
+                else {
+                  List<AlgoliaObjectSnapshot> currSearchStuff = snapshot.data;
 
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Container();
-                          default:
-                            if (snapshot.hasError)
-                              return new Text('Error: ${snapshot.error}');
-                            else
-                              return CustomScrollView(
-                                shrinkWrap: true,
-                                slivers: <Widget>[
-                                  SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                      (context, index) {
-                                        return _searchTerm.length > 0
-                                            ? GestureDetector(
-                                                onTap: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          ReviewsPage()),
-                                                ),
-                                                child: DisplaySearchResult(
-                                                  bio: currSearchStuff[index]
-                                                      .data["bio"],
-                                                  companyName:
-                                                      currSearchStuff[index]
-                                                          .data["company_name"],
-                                                  location:
-                                                      currSearchStuff[index]
-                                                          .data["location"],
-                                                ),
-                                              )
-                                            : Container();
-                                      },
-                                      childCount: currSearchStuff.length ?? 0,
-                                    ),
-                                  ),
-                                ],
-                              );
-                        }
-                      }
-                    },
-                  ),
-                ],
-              ),
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Container();
+                    default:
+                      if (snapshot.hasError)
+                        return new Text('Error: ${snapshot.error}');
+                      else
+                        return CustomScrollView(
+                          shrinkWrap: true,
+                          slivers: <Widget>[
+                            SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  return _searchTerm.length > 0
+                                      ? GestureDetector(
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => ReviewsPage()),
+                                          ),
+                                          child: DisplaySearchResult(
+                                            bio: currSearchStuff[index]
+                                                .data["bio"],
+                                            companyName: currSearchStuff[index]
+                                                .data["company_name"],
+                                            location: currSearchStuff[index]
+                                                .data["location"],
+                                          ),
+                                        )
+                                      : Container();
+                                },
+                                childCount: currSearchStuff.length ?? 0,
+                              ),
+                            ),
+                          ],
+                        );
+                  }
+                }
+              },
             ),
           ],
         ),
